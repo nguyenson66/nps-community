@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 public class AdminController {
 	@GetMapping()
 	public String homeView() {
+		System.out.println("hello world");
 		return "adminTemplates/home";
 	}
 }
