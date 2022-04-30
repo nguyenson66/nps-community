@@ -1,0 +1,136 @@
+.navbar-brand {
+    padding-left: 50px;
+    font-weight: 700;
+}
+
+body {
+    background-image: url('https://mdbootstrap.com/img/Photos/Others/images/76.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+footer {
+    height: 60px;
+    background-color: gray;
+}
+
+.content {
+    display: flex;
+    height: 100%;
+    margin-top: 20vh;
+    margin-bottom: 10vh;
+}
+
+
+.main-bar {
+    margin-right: 20px;
+    width: 100px;
+    flex-grow: 5;
+}
+
+.side-bar {
+    border-radius: 5px;
+    padding: 10px 5px 10px 5px;
+    width: 100px;
+    height: 100vh;
+    flex-grow: 1;
+    background-color: white;
+}
+
+.question-title {
+    text-align: center;
+    order: 5;
+}
+
+.question {
+    border-radius: 5px;
+    padding: 20px 20px 10px;
+    background-color: white;
+}
+
+.question-footer {
+    padding: 20px 0px;
+}
+
+.questioner-avatar {
+    width: 60px;
+}
+
+.user-avatar {
+    width: 40px;
+}
+
+.answer-avatar {
+    width: 40px;
+}
+
+.answer {
+    padding: 20px;
+    border-bottom: 1px solid hsl(210, 8%, 90%);
+}
+
+.answers {
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 20px;
+    background-color: white;
+}
+
+.answer-score {
+    line-height: 39px;
+    text-align: center;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.answer-vote {
+    padding: 10px;
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.sub-reply {
+    border-top: 1px solid hsl(210, 8%, 90%);
+    padding: 10px;
+    margin: 10px 50px 10px 100px;
+}
+
+.reply-time {
+    margin-left: auto;
+}
+
+.question-header {
+    display: flex;
+    justify-content: wrap;
+}
+
+.question-time {
+    margin-left: auto;
+    line-height: 50px;
+    text-align: center;
+}
+
+.question-description {
+    padding: 20px;
+}
+
+.catalog {
+    padding-left: 20px;
+    padding-bottom: 30px;
+    display: flex;
+}
+
+.chude {
+    margin: 3px;
+}
+
+.comment {
+    display: none;
+    margin: 10px 0;
+    border-radius: 5px;
+    padding: 20px;
+    height: 100px;
+    background-color: white;
+}
