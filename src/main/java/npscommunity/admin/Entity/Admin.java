@@ -1,22 +1,25 @@
 package npscommunity.admin.Entity;
 
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
+
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document("admins")
+import lombok.Data;
+
+@Data
 public class Admin {
 	@Id
 	private String id;
 	
+	@NotBlank
 	private String username;
+	@NotBlank
+	@Size(max = 100)
 	private String password;
+	@NotBlank
+	@Size(max = 100, min = 5)
 	private String name;	
 	
-	public Admin(String username, String password, String name) {
-		super();
-		this.username = username;
-		this.name = name;
-		this.password = password;
-	}
-
 }
