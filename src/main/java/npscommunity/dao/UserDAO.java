@@ -1,8 +1,5 @@
 package npscommunity.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import javax.sql.DataSource;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,13 +18,6 @@ public class UserDAO extends JdbcDaoSupport {
 	@Autowired
 	public UserDAO(DataSource dataSource) {
 		this.setDataSource(dataSource);
-	}
-	
-	public List<User> findALlUser(){
-		String sql = UserMapper.BASE_SQL;
-		UserMapper mapper = new UserMapper();
-		List<User> userList = this.getJdbcTemplate().query(sql, mapper);
-		return userList;
 	}
 
 	public User findUserAccount(String username) {

@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		http.csrf().disable();
 		
 		//Các trang không yêu cầu login
-		http.authorizeRequests().antMatchers("/", "/logout").permitAll();
+		http.authorizeRequests().antMatchers("/", "/logout", "/question").permitAll();
 		
 		//Trang chỉ dành cho ADMIN
 		http.authorizeRequests().antMatchers().hasRole("ADMIN");
