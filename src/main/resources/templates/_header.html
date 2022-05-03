@@ -2,7 +2,7 @@
 	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	class="navbar fixed-top navbar-expand-lg navbar-light bg-light opacity-100">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="#">NPS Community</a>
+		<a class="navbar-brand" href="/question">NPS Community</a>
 		<button class="navbar-toggler" type="button" data-bs-toggle="collapse"
 			data-bs-target="#navbarSupportedContent"
 			aria-controls="navbarSupportedContent" aria-expanded="false"
@@ -12,6 +12,7 @@
 		<div class="collapse navbar-collapse" id="navbarSupportedContent">
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
 				<li class="nav-item"><a class="nav-link" href="/about">About</a></li>
+				<li class="nav-item"><a class="nav-link" href="/users">Users</a></li>
 			</ul>
 			<div class="border-light w-50 mx-auto input-group">
 				<input type="search"
@@ -23,12 +24,11 @@
 			</div>
 			<a class="nav-link" href="/login" sec:authorize="!isAuthenticated()">Login</a>
 			<a class="nav-link" href="/signup" sec:authorize="!isAuthenticated()">Signup</a>
-			<span sec:authorize="isAuthenticated()"
-				th:utext="${#request.userPrincipal.name}"></span> <a
-				class="nav-link" href="/logout" sec:authorize="isAuthenticated()">Logout</a>
+			<a class="nav-link" sec:authorize="isAuthenticated()" th:href="${'/users/' + #request.userPrincipal.name}" th:utext="${#request.userPrincipal.name}"></a> 
+			<a class="nav-link" href="/logout" sec:authorize="isAuthenticated()">Logout</a>
 			<button class="btn">
-				<img src="./images/Untitled-1.png" alt="avatar"
-					class="user-avatar rounded-circle">
+				<img sec:authorize="isAuthenticated()" th:src="@{/images/Untitled-1.png}" alt="avatar"
+					class="auth-user-avatar rounded-circle">
 			</button>
 		</div>
 	</div>
