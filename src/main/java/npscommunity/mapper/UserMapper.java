@@ -2,6 +2,7 @@ package npscommunity.mapper;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
 import java.util.Date;
 
 import org.springframework.jdbc.core.RowMapper;
@@ -21,8 +22,12 @@ public class UserMapper implements RowMapper<User>{
         String email = rs.getString("email");
         String name = rs.getString("name");
         String address = rs.getString("address");
-        Date birthday = rs.getDate("birthday");
-        return new User(id, username, password, email, name, address, birthday);
+        Timestamp birthday = rs.getTimestamp("birthday");
+        Timestamp created_at = rs.getTimestamp("created_at");
+        Timestamp updated_at = rs.getTimestamp("updated_at");
+        
+
+        return new User(id, username, password, email, email, name, address, birthday, created_at, updated_at);
 	}
 	
 }

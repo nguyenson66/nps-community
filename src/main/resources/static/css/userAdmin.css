@@ -25,7 +25,7 @@ td,th {
 }
 
 .background-image {
-  background-image: url('./image/background.jpg');
+  background-image: url('/images/background.jpg');
   position: fixed;
   width: 100%;
   min-height: 100vh;

@@ -1,6 +1,8 @@
 package npscommunity.model;
 
-import java.util.Date;
+
+import java.sql.Timestamp;
+
 
 import lombok.Data;
 
@@ -11,38 +13,29 @@ public class User {
 	private String username;
 	private String password;
 	private String email;
+	private String avatar;
 	private String name;
     private String address;
-    private Date birthday;
+    private Timestamp birthday;
+    private Timestamp created_at;
+    private Timestamp updated_at;
     
-   
-	public User() {
-		super();
-	}
-
-
-	public User(String username, String password, String email) {
-		super();
-		this.id = 0;
-		this.username = username;
-		this.password = password;
-		this.email = email;
-		this.name = "";
-		this.address = "";
-		this.birthday = null;
-	}
-
-
-	public User(long id, String username, String password, String email, String name, String address,
-			Date birthday) {
+    public User() {
+    	
+    }
+    
+	public User(long id, String username, String password, String email, String avatar, String name, String address,
+			Timestamp birthday, Timestamp created_at, Timestamp updated_at) {
 		super();
 		this.id = id;
 		this.username = username;
 		this.password = password;
 		this.email = email;
+		this.avatar = avatar;
 		this.name = name;
 		this.address = address;
 		this.birthday = birthday;
-	}
-	
+		this.created_at = created_at;
+		this.updated_at = updated_at;
+	}	
 }

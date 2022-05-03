@@ -21,7 +21,7 @@ a {
 }
 
 .background-image {
-  background-image: url('./images/background.jpg');
+  background-image: url('/images/background.jpg');
   position: fixed;
   width: 100%;
   min-height: 100vh;
