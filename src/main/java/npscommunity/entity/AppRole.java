@@ -24,6 +24,6 @@ public class AppRole {
 	@Column
 	private String name;
 	
-    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "roles")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles")
     private List<AppUser> users;
 }

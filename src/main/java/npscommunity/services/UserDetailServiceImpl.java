@@ -13,6 +13,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
+import npscommunity.entity.AppRole;
 import npscommunity.entity.AppUser;
 import npscommunity.repository.RoleRepository;
 import npscommunity.repository.UserRepository;
@@ -30,22 +31,20 @@ public class UserDetailServiceImpl implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 		AppUser user = this.userRepo.findByUsername(username);
-
 		if(user == null) {
 			System.out.println("User not found! " + username);
 			throw new UsernameNotFoundException("User " + username + " was not found in the database");
 		}
-
-		log.info("Found User: " + user);
-
-		List<String> roleNames = this.roleRepo.findAllRoleByUserId(user.getId());
-
+		log.info(username);
+		log.info("Found User: " + user.getName());
+		
         List<GrantedAuthority> grantList = new ArrayList<>();
 
-        if (roleNames != null) {
-            for (String role : roleNames) {
+        if (user.getRoles() != null) {
+            for (AppRole role : user.getRoles()) {
                 //USER, ADMIN,..
-                GrantedAuthority authority = new SimpleGrantedAuthority(role);
+            	log.info(role.getName());
+                GrantedAuthority authority = new SimpleGrantedAuthority(role.getName());
                 grantList.add(authority);
             }
         }

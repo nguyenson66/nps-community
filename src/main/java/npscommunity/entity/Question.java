@@ -1,6 +1,6 @@
 package npscommunity.entity;
 
-import java.time.LocalDateTime;
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -24,7 +24,7 @@ import lombok.Data;
 public class Question {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // Id auto increment
-	private long id;
+	private Long id;
 	
 	@Column
 	private String title;
@@ -33,21 +33,21 @@ public class Question {
 	private String content;
 	
 	@Column
-	private long viewed;
+	private Long viewed;
 	
 	@Column
-	private long vote_up;
+	private Long vote_up;
 	
 	@Column
-	private long vote_down;
+	private Long vote_down;
 	
 	@Column(name = "created_at")
 	@CreationTimestamp
-	private LocalDateTime createdAt;
+	private Timestamp createdAt;
 	
 	@Column(name = "updated_at")
 	@UpdateTimestamp
-	private LocalDateTime updatedAt;
+	private Timestamp updatedAt;
 	
 	@ManyToMany(fetch = FetchType.LAZY)
 	List<Category> categories;

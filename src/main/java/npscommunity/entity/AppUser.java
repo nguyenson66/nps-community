@@ -1,7 +1,8 @@
 package npscommunity.entity;
 
+
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+
 import java.util.List;
 
 import javax.persistence.Column;
@@ -19,6 +20,7 @@ import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import lombok.Data;
+import lombok.ToString;
 
 @Data
 @Entity(name = "user")
@@ -31,34 +33,35 @@ public class AppUser {
 
 	@Column(nullable = false)
 	private String username;
-	
+
 	@Column(nullable = false)
 	private String password;
-	
+
 	@Column
 	private String email;
-	
-	@Column
+
+	@Column(columnDefinition = "varchar(255) default 'https://bit.ly/3McoJN1'")
 	private String avatar;
-	
+
 	@Column
 	private String name;
-	
+
 	@Column
 	private String address;
-	
+
 	@Column
 	private Timestamp birthday;
-	
-	@ManyToMany(fetch = FetchType.LAZY)
-	@JoinTable(name="user_roles", joinColumns = @JoinColumn())
+
+	@ManyToMany(fetch = FetchType.EAGER)
+	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "users_id"), inverseJoinColumns = @JoinColumn(name = "roles_id"))
 	private List<AppRole> roles;
-	
+
 	@Column(name = "created_at")
 	@CreationTimestamp
-	private LocalDateTime createdAt;
-	
+	private Timestamp createdAt;
+
 	@Column(name = "updated_at")
 	@UpdateTimestamp
-	private LocalDateTime updatedAt;
+	private Timestamp updatedAt;
+	
 }

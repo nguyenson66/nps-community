@@ -1,7 +1,5 @@
 package npscommunity.controller;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,7 +17,7 @@ import npscommunity.entity.AppUser;
 
 @Slf4j
 @Controller
-@RequestMapping("/question")
+@RequestMapping("/questions")
 public class QuestionController {
 	@Autowired
 	QuestionRepository questionRepo;
@@ -32,15 +30,16 @@ public class QuestionController {
 
 	@GetMapping
 	public String questionForm(@RequestParam(name="id", required=false, defaultValue="1") String id, Model model) {
-		Question ques = questionRepo.findById(id).get();
-//		List<Category> categories = categoryRepo.findListCategoryByQuestionID(id);
+		Question ques = questionRepo.findById(Long.parseLong(id));
+		log.info("Question found:" + ques.getContent());
 //		List<Category> hotCate = categoryRepo.findHotCategory();
-		log.info("Question found:" + ques);
-		AppUser q_user = userRepo.findById(id).get();
+		AppUser q_user = userRepo.findById(Long.parseLong(id)).get();
 		model.addAttribute("question", ques);
 		model.addAttribute("q_user", q_user);
-//		model.addAttribute("categories", categories);
+		model.addAttribute("categories", ques.getCategories());
 //		model.addAttribute("hot_cate", hotCate);
 		return "question";
 	}
+	
+	
 }

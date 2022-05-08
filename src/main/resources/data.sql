@@ -10,14 +10,17 @@ values 	('nguyen', '$2a$10$zUFvzLFIuTGO6gO1cmbk0e4GMFAl0GTWYv79aAjCv8h4q5VjoJfcK
 insert into CATEGORY (name)
 values ('Đời sống'), ('Công nghệ');
 
-insert into USER_ROLE(user_id, role_id)
+insert into USER_ROLES(users_id, roles_id)
 values 	(1, 1),
-		(1, 2);
+		(1, 2),
+        (2, 2);
 
-insert into QUESTION (user_id, category_id,title, content)
-values 	(1, 1, 'Nguyên có béo không ?' , 'Thực sự thì với cân nặng là 63kg thì các chuyên gia đã khẳng định Nguyên không béo!');
+insert into QUESTION (id, content, created_at, title, updated_at, viewed, vote_down, vote_up, user_id)
+values ('1', 'Thực sự thì với cân nặng là 63kg thì các chuyên gia đã khẳng định Nguyên không béo!', '2022-05-03 22:04:35', 'Nguyên có béo không ?', '2022-05-03 22:04:35', '0', '0', '0', '1');
 
 
-insert into QUESTION_CATEGORY(question_id, category_id)
+
+
+insert into QUESTION_CATEGORIES(questions_id, categories_id)
 values 	(1,1),
 		(1,2);
