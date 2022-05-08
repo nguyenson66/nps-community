@@ -13,36 +13,35 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import lombok.extern.slf4j.Slf4j;
-import npscommunity.dao.UserDAO;
-import npscommunity.dao.RoleDAO;
+import npscommunity.entity.AppUser;
+import npscommunity.repository.RoleRepository;
+import npscommunity.repository.UserRepository;
 
 @Slf4j
 @Service
 public class UserDetailServiceImpl implements UserDetailsService{
 
 	@Autowired
-	private UserDAO userDAO;
-	
+	private UserRepository userRepo;
+
 	@Autowired
-	private RoleDAO roleDAO;
-	
-	private npscommunity.model.User user;
-	
+	private RoleRepository roleRepo;
+
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		user = this.userDAO.findUserAccount(username);
-		
+		AppUser user = this.userRepo.findByUsername(username);
+
 		if(user == null) {
 			System.out.println("User not found! " + username);
 			throw new UsernameNotFoundException("User " + username + " was not found in the database");
 		}
-		
-		log.info("Found User: " + user);
-		
-		List<String> roleNames = this.roleDAO.getRoleNames(user.getId());
 
-        List<GrantedAuthority> grantList = new ArrayList<GrantedAuthority>();
-        
+		log.info("Found User: " + user);
+
+		List<String> roleNames = this.roleRepo.findAllRoleByUserId(user.getId());
+
+        List<GrantedAuthority> grantList = new ArrayList<>();
+
         if (roleNames != null) {
             for (String role : roleNames) {
                 //USER, ADMIN,..
@@ -50,8 +49,8 @@ public class UserDetailServiceImpl implements UserDetailsService{
                 grantList.add(authority);
             }
         }
-		UserDetails userDetail = (UserDetails) new User(user.getUsername(),user.getPassword(),grantList);
-		
+		UserDetails userDetail = new User(user.getUsername(),user.getPassword(),grantList);
+
 		return userDetail;
 	}
 
