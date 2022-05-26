@@ -1,6 +1,7 @@
 body {
     background-image: url('https://mdbootstrap.com/img/Photos/Others/images/76.jpg');
     background-repeat: no-repeat;
+    background-position: fixed;
     background-attachment: fixed;
     background-size: cover;
     min-height: 100vh;
@@ -138,4 +139,15 @@ footer {
 
 .question_image{
 	max-width: 100%;
+}
+
+.comment_tool {
+    display: flex;
+    flex-direction: row;
+}
+
+.user_bar {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }

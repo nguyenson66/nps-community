@@ -2,6 +2,8 @@ package npscommunity.controller;
 
 import java.security.Principal;
 
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -22,13 +24,14 @@ public class MainController {
 	}
 
 	@RequestMapping(value = {"/login"}, method = RequestMethod.GET)
-	public String loginForm() {
+	public String loginForm(HttpServletRequest req, Model model) {
+		String referer = req.getHeader("Referer");
+		req.getSession().setAttribute("url_prior_login", referer);
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
             return "login";
         }
-		return "redirect:/question";
-
+		return "redirect:/" + referer;	
 	}
 
 	@RequestMapping(value = "/403", method = RequestMethod.GET)
@@ -44,9 +47,10 @@ public class MainController {
 			String message = "Hi " + principal.getName() //
 					+ "<br> You do not have permission to access this page!";
 			model.addAttribute("message", message);
-
+	
 		}
 
 		return "Error_403";
 	}
+	
 }

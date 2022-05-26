@@ -13,6 +13,7 @@
 	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet"
 		integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
 	<link rel="script" href="">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 	<script th:src="@{/js/qa_page.js}"> </script>
 </head>
 
@@ -20,19 +21,22 @@
 	<th:header th:include='/_header'></th:header>
 	<div class="container content">
 		<div class="main-bar">
+			<!-- QUESTION -->
 			<div class="question">
 				<div class="question-header">
 					<div class="user-infor">
 						<button class="btn">
-							<img th:src="@{/images/Untitled-1.png}" alt="avatar"
-								class="questioner-avatar rounded-circle">
+							<img th:src="${q_user.avatar}" alt="avatar" class="questioner-avatar rounded-circle">
 						</button>
 						<a th:text="${q_user.name}" th:href="${'/users/' + q_user.username}">USER_FULLNAME</a>
 					</div>
 					<div class="question-time">
-						<span th:text="${'Updated At: ' + question.updatedAt}">Updated At</span>
+						<span
+							th:text="${'Created At: ' + #dates.format(new java.util.Date(question.createdAt), 'dd/MM/YYYY')}">dd/MM/YYYY
+							hh:mm</span>
 					</div>
 				</div>
+				<hr>
 				<div class="catalog">
 					<button th:each="category : ${categories}" type="button"
 						class="chude btn btn-outline-info rounded-pill" th:text="${category.name}">#CHUDE</button>
@@ -40,262 +44,86 @@
 				<h2 class="question-title" th:text="${question.title}">QUESTION_TITLE</h2>
 				<div class="question-content">
 					<p th:text="${question.content}">QUESTION_CONTENT</p>
-					<img class="question_image" src="./images/istockphoto-1305169776-170667a.jpg" alt="question-images">
+					<!-- <img class="question_image" th:src="@{/images/istockphoto-1305169776-170667a.jpg}" alt="question-images"> -->
 				</div>
 				<div class="question-footer" style="display: flex;">
-					<span class="answer-score">1000</span>
+					<span id="qscore" class="answer-score" th:text="${question.getScore()}">SCORE</span>
 					<div class="vote btn-toolbar ms-5" role="toolbar" aria-label="Toolbar with button groups">
 						<div class="btn-group me-2" role="group" aria-label="First group">
-							<button class="btn btn-outline-primary">
+							<button id="qvoteup" onclick="quesVoteUp()" type="button" class="btn btn-outline-primary"
+								th:value="${question.id}">
 								<span class="material-icons-outlined">arrow_drop_up</span></button>
-							<button class="btn btn-outline-secondary"><span
-									class="material-icons-outlined">arrow_drop_down</span></button>
+							<button id="qvotedown" onclick="quesVoteDown()" type="button"
+								class="btn btn-outline-secondary" th:value="${question.id}">
+								<span class="material-icons-outlined">arrow_drop_down</span></button>
 						</div>
-						<button onclick="reply()" type="button" class="btn btn-outline-secondary">Reply</button>
+						<button onclick="reply()" type="button" class="btn btn-outline-secondary"
+							th:if="${auth_user != null}">Reply</button>
+						<button type="button" class="btn btn-outline-secondary" th:unless="${auth_user != null}"
+							onclick="window.location.href='/login'">Reply
+						</button>
 					</div>
 				</div>
 			</div>
-			<div id="commentInput" class="comment mt-4">
-				<div class="user-info">
-					<button class="btn">
-						<img src="./images/Untitled-1.png" alt="avatar" class="answer-avatar rounded-circle">
-					</button>
+
+			<!-- COMMENT -->
+			<form th:action="${'/questions/comment/' + question.id}" method="post" th:object="${comment}">
+				<div id="commentInput" class="comment mt-4">
+					<div class="user-info">
+						<button class="btn">
+							<img sec:authorize="isAuthenticated()" th:src="${auth_user.avatar}" alt="avatar"
+								class="answer-avatar rounded-circle">
+						</button>
+					</div>
+					<div class="flex-grow-1 form form-outline mb-4 mt-2">
+						<input th:field="*{content}" type="text" id="form3Example3" autocomplete="off"
+							class="form__input form-control" placeholder="Write a comment..." />
+					</div>
+					<div class="send-comment ms-5 mt-2">
+						<button type="submit" class="btn btn-primary">Send</button>
+					</div>
 				</div>
-				<div class="flex-grow-1 form form-outline mb-4 mt-2">
-					<input type="email" id="form3Example3" autocomplete="off" class="form__input form-control"
-						placeholder="Write a comment..." />
-				</div>
-				<div class="send-comment ms-5 mt-2">
-					<button class="btn btn-primary">Send</button>
-				</div>
-			</div>
+			</form>
+
+			<!-- ANSWER -->
 			<div class="answers">
-				<div class="answer">
-					<div class="user-info">
-						<button class="btn">
-							<img src="./images/Untitled-1.png" alt="avatar" class="answer-avatar rounded-circle">
-						</button>
-						<a href="#">Username</a>
-					</div>
-					<div class="user-comment">
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui velit ullam deleniti fugiat. Quod
-						reiciendis repellendus facilis praesentium, libero esse assumenda, placeat hic animi veniam
-						dolores
-						delectus dolorem repudiandae dicta?
-					</div>
-					<div class="answer-vote">
-						<span class="answer-score">100</span>
-						<div class="vote btn-toolbar ms-5" role="toolbar" aria-label="Toolbar with button groups">
-							<div class="btn-group me-2" role="group" aria-label="First group">
-								<button class="btn btn-outline-primary btn-sm">
-									<span class="material-icons-outlined">arrow_drop_up</span></button>
-								<button class="btn btn-outline-secondary btn-sm"><span
-										class="material-icons-outlined">arrow_drop_down</span></button>
-							</div>
-							<button onclick="subReply()" type="button" class="btn btn-outline-secondary">Reply</button>
-						</div>
-						<span class="reply-time">dd/MM/yyyy hh:mm</span>
-					</div>
-					<div class="sub-replies">
-						<div class="sub-reply">
-							<div class="user-info">
-								<a href="#">Username</a>
-								<span class="reply-time">dd/MM/yyyy hh:mm</span>
-							</div>
-							<div class="user-comment">
-								Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui velit ullam deleniti
-								fugiat.
-								Quod
-								reiciendis repellendus facilis praesentium, libero esse assumenda, placeat hic animi
-								veniam
-								dolores
-								delectus dolorem repudiandae dicta?
-							</div>
-
-						</div>
-						<div class="sub-reply">
-							<div class="user-info">
-								<a href="#">Username</a>
-								<span class="reply-time">dd/MM/yyyy hh:mm</span>
-							</div>
-							<div class="user-comment">
-								Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui velit ullam deleniti
-								fugiat.
-								Quod
-								reiciendis repellendus facilis praesentium, libero esse assumenda, placeat hic animi
-								veniam
-								dolores
-								delectus dolorem repudiandae dicta?
-							</div>
-
-						</div>
-					</div>
-					<div id="subcommentInput" class="comment mt-4">
+				<div class="answer" th:each='answer : ${question.answers}'>
+					<div class="user_bar">
 						<div class="user-info">
 							<button class="btn">
-								<img src="./images/Untitled-1.png" alt="avatar" class="answer-avatar rounded-circle">
+								<img th:src="${answer.user.avatar}" alt="avatar" class="answer-avatar rounded-circle">
 							</button>
+							<a th:href="${'/users/'+answer.user.username}" th:text="${answer.user.name}">USER_NAME</a>
 						</div>
-						<div class="flex-grow-1 form form-outline mb-4 mt-2">
-							<input type="email" id="form3Example3" autocomplete="off" class="form__input form-control"
-								placeholder="Write a comment..." />
-						</div>
-						<div class="send-comment ms-5 mt-2">
-							<button class="btn btn-primary">Send</button>
+						<div class="comment_tool"
+							th:if="${auth_user != null && auth_user.username == answer.user.username}">
+							<form th:action="${'/answers/delete/' + answer.id}" method="post">
+								<button type="submit" class="btn btn-outline-primary btn-sm">Delete</button>
+							</form>
+							<form th:action="${'/answers/edit/' + answer.id}" method="post">
+								<button type="submit" class="btn btn-outline-secondary btn-sm">Edit</button>
+							</form>
 						</div>
 					</div>
-				</div>
-				<div class="answer">
-					<div class="user-info">
-						<button class="btn">
-							<img src="./images/Untitled-1.png" alt="avatar" class="answer-avatar rounded-circle">
-						</button>
-						<a href="#">Username</a>
-					</div>
-					<div class="user-comment">
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui velit ullam deleniti fugiat. Quod
-						reiciendis repellendus facilis praesentium, libero esse assumenda, placeat hic animi veniam
-						dolores
-						delectus dolorem repudiandae dicta?
-					</div>
+					<div class="user-comment" th:text="${answer.content}">CONTENT</div>
 					<div class="answer-vote">
-						<span class="answer-score">100</span>
+						<span th:id="${'ascore' + answer.id}" class="answer-score"
+							th:text="${answer.getScore()}">SCORE</span>
 						<div class="vote btn-toolbar ms-5" role="toolbar" aria-label="Toolbar with button groups">
 							<div class="btn-group me-2" role="group" aria-label="First group">
-								<button class="btn btn-outline-primary btn-sm">
+								<button id="avoteup" th:attr="onclick=|ansVoteUp('${answer.id}')|" type="button"
+									class="btn btn-outline-primary btn-sm" th:value="${answer.id}">
 									<span class="material-icons-outlined">arrow_drop_up</span></button>
-								<button class="btn btn-outline-secondary btn-sm"><span
-										class="material-icons-outlined">arrow_drop_down</span></button>
+								<button id="avotedown" th:attr="onclick=|ansVoteDown('${answer.id}')|" type="button"
+									class="btn btn-outline-secondary btn-sm" th:value="${answer.id}">
+									<span class="material-icons-outlined">arrow_drop_down</span></button>
 							</div>
-							<button onclick="subReply()" type="button" class="btn btn-outline-secondary">Reply</button>
 						</div>
-						<span class="reply-time">dd/MM/yyyy hh:mm</span>
-					</div>
-					<div class="sub-replies">
-						<div class="sub-reply">
-							<div class="user-info">
-								<a href="#">Username</a>
-								<span class="reply-time">dd/MM/yyyy hh:mm</span>
-							</div>
-							<div class="user-comment">
-								Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui velit ullam deleniti
-								fugiat.
-								Quod
-								reiciendis repellendus facilis praesentium, libero esse assumenda, placeat hic animi
-								veniam
-								dolores
-								delectus dolorem repudiandae dicta?
-							</div>
-
-						</div>
-						<div class="sub-reply">
-							<div class="user-info">
-								<a href="#">Username</a>
-								<span class="reply-time">dd/MM/yyyy hh:mm</span>
-							</div>
-							<div class="user-comment">
-								Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui velit ullam deleniti
-								fugiat.
-								Quod
-								reiciendis repellendus facilis praesentium, libero esse assumenda, placeat hic animi
-								veniam
-								dolores
-								delectus dolorem repudiandae dicta?
-							</div>
-
-						</div>
-					</div>
-					<div id="subcommentInput" class="comment mt-4">
-						<div class="user-info">
-							<button class="btn">
-								<img src="./images/Untitled-1.png" alt="avatar" class="answer-avatar rounded-circle">
-							</button>
-						</div>
-						<div class="flex-grow-1 form form-outline mb-4 mt-2">
-							<input type="email" id="form3Example3" autocomplete="off" class="form__input form-control"
-								placeholder="Write a comment..." />
-						</div>
-						<div class="send-comment ms-5 mt-2">
-							<button class="btn btn-primary">Send</button>
-						</div>
+						<span class="reply-time"
+							th:text="${'Created At: ' + #dates.format(new java.util.Date(answer.createdAt), 'dd/MM/YYYY')}">Created
+							At</span>
 					</div>
 				</div>
-				<div class="answer">
-					<div class="user-info">
-						<button class="btn">
-							<img src="./images/Untitled-1.png" alt="avatar" class="answer-avatar rounded-circle">
-						</button>
-						<a href="#">Username</a>
-					</div>
-					<div class="user-comment">
-						Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui velit ullam deleniti fugiat. Quod
-						reiciendis repellendus facilis praesentium, libero esse assumenda, placeat hic animi veniam
-						dolores
-						delectus dolorem repudiandae dicta?
-					</div>
-					<div class="answer-vote">
-						<span class="answer-score">100</span>
-						<div class="vote btn-toolbar ms-5" role="toolbar" aria-label="Toolbar with button groups">
-							<div class="btn-group me-2" role="group" aria-label="First group">
-								<button class="btn btn-outline-primary btn-sm">
-									<span class="material-icons-outlined">arrow_drop_up</span></button>
-								<button class="btn btn-outline-secondary btn-sm"><span
-										class="material-icons-outlined">arrow_drop_down</span></button>
-							</div>
-							<button onclick="subReply()" type="button" class="btn btn-outline-secondary">Reply</button>
-						</div>
-						<span class="reply-time">dd/MM/yyyy hh:mm</span>
-					</div>
-					<div class="sub-replies">
-						<div class="sub-reply">
-							<div class="user-info">
-								<a href="#">Username</a>
-								<span class="reply-time">dd/MM/yyyy hh:mm</span>
-							</div>
-							<div class="user-comment">
-								Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui velit ullam deleniti
-								fugiat.
-								Quod
-								reiciendis repellendus facilis praesentium, libero esse assumenda, placeat hic animi
-								veniam
-								dolores
-								delectus dolorem repudiandae dicta?
-							</div>
-
-						</div>
-						<div class="sub-reply">
-							<div class="user-info">
-								<a href="#">Username</a>
-								<span class="reply-time">dd/MM/yyyy hh:mm</span>
-							</div>
-							<div class="user-comment">
-								Lorem, ipsum dolor sit amet consectetur adipisicing elit. Qui velit ullam deleniti
-								fugiat.
-								Quod
-								reiciendis repellendus facilis praesentium, libero esse assumenda, placeat hic animi
-								veniam
-								dolores
-								delectus dolorem repudiandae dicta?
-							</div>
-
-						</div>
-					</div>
-					<div id="subcommentInput" class="comment mt-4">
-						<div class="user-info">
-							<button class="btn">
-								<img src="./images/Untitled-1.png" alt="avatar" class="answer-avatar rounded-circle">
-							</button>
-						</div>
-						<div class="flex-grow-1 form form-outline mb-4 mt-2">
-							<input type="email" id="form3Example3" autocomplete="off" class="form__input form-control"
-								placeholder="Write a comment..." />
-						</div>
-						<div class="send-comment ms-5 mt-2">
-							<button class="btn btn-primary">Send</button>
-						</div>
-					</div>
-				</div>
-
 			</div>
 		</div>
 		<div class="side-bar">

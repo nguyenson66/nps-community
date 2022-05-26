@@ -10,9 +10,11 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl;
 import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 
+import npscommunity.services.MyCustomLoginSuccessHandler;
 import npscommunity.services.UserDetailServiceImpl;
 
 @Configuration
@@ -28,6 +30,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
+	}
+	
+	@Bean
+	public AuthenticationSuccessHandler successHandler() {
+	    return new MyCustomLoginSuccessHandler("/questions");
 	}
 
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -55,7 +62,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		//Cấu hình cho form login
 		http.authorizeRequests().and().formLogin()
 			.loginPage("/login")
-			.defaultSuccessUrl("/question")
+			.successHandler(successHandler())
 			.failureUrl("/login?error=true")
 			.usernameParameter("username")
 			.passwordParameter("password")
@@ -63,7 +70,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 		.logout().logoutUrl("/logout").logoutSuccessUrl("/login");
 
 		//Cấu hình Remember Me
-		http.requestMatchers().and().rememberMe().userDetailsService(userDetailsService).tokenRepository(this.persistentTokenRepository()).tokenValiditySeconds(10*60);
+		http.requestMatchers().and().rememberMe().userDetailsService(userDetailsService).tokenRepository(this.persistentTokenRepository()).tokenValiditySeconds(10*60*60);
 	}
 
 	@Bean

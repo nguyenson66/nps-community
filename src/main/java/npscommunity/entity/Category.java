@@ -11,6 +11,9 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
 
 @Entity
@@ -20,10 +23,11 @@ public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // Id auto increment
 	private long id;
-	
+
 	@Column()
 	private String name;
-	
+
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")
+	@JsonIgnore
 	List<Question> questions;
 }

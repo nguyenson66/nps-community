@@ -1,5 +1,8 @@
 package npscommunity.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -13,6 +16,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import lombok.extern.slf4j.Slf4j;
+import npscommunity.entity.AppRole;
 import npscommunity.entity.AppUser;
 import npscommunity.repository.RoleRepository;
 import npscommunity.repository.UserRepository;
@@ -45,6 +49,10 @@ public class SignupController {
 		log.info("User summited:" + user);
 		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
         userRepo.save(user);
+        AppRole default_role = roleRepo.findById((long) 2).get();
+        List<AppRole> u_role = new ArrayList<>();
+        u_role.add(default_role);
+        user.setRoles(u_role);
 		return "redirect:/login";
 	}
 }

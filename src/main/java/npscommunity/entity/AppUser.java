@@ -1,6 +1,5 @@
 package npscommunity.entity;
 
-
 import java.sql.Timestamp;
 
 import java.util.List;
@@ -14,16 +13,19 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import lombok.Data;
-import lombok.ToString;
 
 @Data
-@Entity(name = "user")
+@Entity(name = "User")
 @Table(name = "user")
 public class AppUser {
 
@@ -35,6 +37,7 @@ public class AppUser {
 	private String username;
 
 	@Column(nullable = false)
+	@JsonIgnore
 	private String password;
 
 	@Column
@@ -54,6 +57,7 @@ public class AppUser {
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "users_id"), inverseJoinColumns = @JoinColumn(name = "roles_id"))
+	@JsonIgnore
 	private List<AppRole> roles;
 
 	@Column(name = "created_at")
@@ -63,5 +67,9 @@ public class AppUser {
 	@Column(name = "updated_at")
 	@UpdateTimestamp
 	private Timestamp updatedAt;
-	
+
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@JsonIgnore
+	private List<Question> questions;
+
 }

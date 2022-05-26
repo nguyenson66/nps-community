@@ -5,7 +5,7 @@
 	<meta charset="UTF-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<link rel="stylesheet" th:href="@{/css/userProfile.css}">
+	<link rel="stylesheet" href="./css/user.css">
 	<link
 		href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp"
 		rel="stylesheet">
@@ -17,25 +17,28 @@
 
 <body style="display: flex; flex-direction: column">
 	<th:header th:include='/_header'></th:header>
-	<div class="container user-profile">
-		<div class="sidebar">
-			<div class="user-avatar">
-				<img th:src="${user.avatar}" alt="avatar" class="user-avatar rounded-circle">
-			</div>
-			<button class="btn btn-outline-primary">Questions</button>
-			<button class="btn btn-outline-primary">Answers</button>
-
+	<div class="container content-user">
+		<div class="tools-bar">
+			<h1>All Questions</h1>
 		</div>
-		<div class="main">
-			<div class="user-details">
-				<a class="nav-link h1" th:href="${'/users/' + user.username}" th:text="${user.name}">USERNAME</a>
-				<span th:text="${user.email}">EMAIL</span>
-				<span th:text="${user_birthday}">BIRTHDAY</span>
-			</div>
-			<button th:if="${aup}" class="update-bt mb-2 btn btn-outline-info">
-				<a class="nav-link" th:href="${user.username+'/edit'}">UPDATE PROFILE</a>
-			</button>
-		</div>
+		<table class="table">
+			<thead>
+				<th scope="col">No</th>
+				<th scope="col">Title</th>
+				<th scope="col">Viewed</th>
+				<th scope="col">Score</th>
+			</thead>
+			<tbody>
+				<tr th:each="ques, iter: ${questions}">
+					<th scope="row" th:text="${iter.index + 1}"></th>
+					<th>
+						<a class="nav-link" th:text="${ques.title}" th:href="${'/questions/' + ques.id}">TITLE</a>
+					</th>
+					<th th:text="${ques.viewed}">VIEWED</th>
+					<th th:text="${ques.getScore()}">SCORE</th>
+				</tr>
+			</tbody>
+		</table>
 	</div>
 
 	<footer class="" style="order: 2;">
