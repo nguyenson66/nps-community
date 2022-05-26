@@ -199,7 +199,7 @@ a {
 
 .content-funtions .detail .box .data .variable {
   margin-left: 5px;
-  width: 400px;
+  min-width: 10px;
   height: 20px;
   background-color: rgb(56, 246, 56);
   border-radius: 5px;
@@ -207,9 +207,9 @@ a {
 
 /*  sadfd  */
 
-.content-funtions .detail .box .data .last-month .variable {
-  width: 200px;
-}
+/* .content-funtions .detail .box .data .last-month .variable {
+
+} */
 
 
 .content-funtions .detail .box .data .last-month .variable{

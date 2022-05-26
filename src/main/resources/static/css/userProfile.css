@@ -1,0 +1,67 @@
+.navbar-brand {
+    padding-left: 50px;
+    font-weight: 700;
+}
+
+body {
+    background-image: url('https://mdbootstrap.com/img/Photos/Others/images/76.jpg');
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    background-size: cover;
+    min-height: 100vh;
+}
+
+footer {
+    height: 60px;
+    background-color: gray;
+}
+
+.user-profile {
+	display:flex;
+	flex-direction:row;
+    height: 100%;
+    padding: 0px 0px;
+    margin-top: 15vh;
+    margin-bottom: 10vh;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: white;
+    flex-grow: 1;
+}
+
+.sidebar {
+    display: flex;
+    flex-direction:column;
+}
+
+.auth-user-avatar {
+    width: 40px;
+}
+
+.user-avatar {
+	float:left;
+    width: 200px;
+    height: 200px;
+    margin-bottom: 20px;
+}
+
+.main{
+    display: flex;
+	flex-grow:1;
+	width: 250px;
+	height: 60px;
+	margin: 10px;
+}
+
+.user-details{
+    display: flex;
+    flex-direction: column;
+    flex-grow:1;
+	float:left;
+	padding-left: 10px;
+	width: 150px;
+}
+
+.update-bt {
+	width: 200px;
+}

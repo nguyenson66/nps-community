@@ -200,7 +200,7 @@ td,th {
 
 .content-funtions .detail .box .data .variable {
   margin-left: 5px;
-  width: 400px;
+  min-width: 10px;
   height: 20px;
   background-color: rgb(56, 246, 56);
   border-radius: 5px;
@@ -274,4 +274,50 @@ td,th {
     padding-left: 0;
     justify-content: center;
   }
+}
+
+/*  //////////////////////////////   */
+.information-user{
+  width: 100%;
+  min-height: 250px;
+  padding-top: 100px;
+  position: relative;
+}
+
+.user {
+  padding: 10px 20px;
+  min-height: 100vh;
+}
+
+.user-avatar {
+  display: flex;
+  justify-content: center;
+}
+
+.user-avatar img {
+  width: 150px;
+  height: 150px;
+  border-radius: 50%;
+  border: solid 2px brown;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.user-name h3 {
+  text-align: center;
+}
+
+.user-detail {
+  background-color: white;
+  border-radius: 20px;
+  padding: 20px;
+}
+
+.recent-question {
+  margin: 50px 0;
+}
+
+.recent-question h5 {
+  text-align: center;
 }

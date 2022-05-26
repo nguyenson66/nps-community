@@ -1,0 +1,55 @@
+body {
+    background-image: url('https://mdbootstrap.com/img/Photos/Others/images/76.jpg');
+    background-size: cover;
+    background-attachment: fixed;
+    background-repeat: no-repeat;
+}
+
+.loginform {
+    background-color: white;
+    width: 400px;
+    height: 100vh;
+    opacity: 0.90;
+    padding: 0px 20px 20px;
+    margin: 0 auto;
+}
+
+.divider:after,
+.divider:before {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: #eee;
+}
+
+.logo {
+    max-width: 300px;
+    margin: 0 auto;
+}
+
+img {
+    max-width: 100%;
+    margin-top: -50px;
+    margin-bottom: -50px;
+}
+
+.form {
+    position: relative;
+}
+
+.form__label {
+    position: absolute;
+    left: 15px;
+    top: 5px;
+    padding: 0 3px;
+    color: gray;
+    cursor: text;
+    transition: top 200ms ease-in, left 200ms ease-in, font-size 200ms ease-in;
+}
+
+.form__input:focus~.form__label,
+.form__input:not(:placeholder-shown).form__input:not(:focus)~.form__label {
+    top: -20px;
+    font-size: 12px;
+    left: 5px;
+}
