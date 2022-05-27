@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class ManagerUser {
+    public Long id;
     public String name;
     public String username;
     public String email;
@@ -11,8 +12,9 @@ public class ManagerUser {
     public Long total_answer;
     public Long total_vote;
 
-    public ManagerUser(String name, String username, String email, Long total_question, Long total_answer,
+    public ManagerUser(Long id, String name, String username, String email, Long total_question, Long total_answer,
             Long total_vote) {
+        this.id = id;
         this.name = name;
         this.username = username;
         this.email = email;

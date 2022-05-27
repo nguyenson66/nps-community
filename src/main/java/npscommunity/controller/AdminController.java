@@ -3,6 +3,7 @@ package npscommunity.controller;
 import java.security.Principal;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -22,11 +23,13 @@ import lombok.extern.slf4j.Slf4j;
 import npscommunity.dto.ManagerCategory;
 import npscommunity.dto.ManagerQuestionDto;
 import npscommunity.dto.ManagerUser;
+import npscommunity.entity.AppRole;
 import npscommunity.entity.AppUser;
 import npscommunity.entity.Category;
 import npscommunity.entity.Question;
 import npscommunity.repository.CategoryRepository;
 import npscommunity.repository.QuestionRepository;
+import npscommunity.repository.RoleRepository;
 import npscommunity.repository.UserRepository;
 
 @Slf4j
@@ -42,6 +45,9 @@ public class AdminController {
 
 	@Autowired
 	CategoryRepository categoryRepo;
+
+	@Autowired
+	RoleRepository roleRepo;
 
 	@GetMapping("")
 	public String homeView(Principal principal, Model model) throws ParseException {
@@ -207,10 +213,10 @@ public class AdminController {
 		return "redirect:/admin/category";
 	}
 
-	@GetMapping("/user/{username}")
-	public String informationUser(@PathVariable(name = "username") String username, Model model) {
+	@GetMapping("/user/{userId}")
+	public String informationUser(@PathVariable(name = "userId") Long userId, Model model) {
 
-		AppUser user = userRepo.findByUsername(username);
+		AppUser user = userRepo.findById(userId).get();
 
 		if (user == null) {
 			return "redirect:/admin/user";
@@ -222,5 +228,23 @@ public class AdminController {
 		model.addAttribute("questions", questions);
 
 		return "adminTemplates/informationUser";
+	}
+
+	@PostMapping("/user/{userId}/{role}")
+	public String setRole(@PathVariable(name = "userId") Long userId, @PathVariable(name = "role") String role,
+			HttpServletRequest req) {
+
+		AppRole roleUser = roleRepo.findByName(role);
+		AppUser user = userRepo.findById(userId).get();
+
+		if (roleUser != null && user != null) {
+			List<AppRole> roles = new ArrayList<>();
+			roles.add(roleUser);
+			user.setRoles(roles);
+			
+			userRepo.save(user);
+		}
+
+		return "redirect:" + req.getHeader("Referer");
 	}
 }

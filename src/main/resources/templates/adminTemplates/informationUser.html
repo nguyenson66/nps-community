@@ -33,7 +33,11 @@
       <div class="content-funtions">
         <div class="navbar">
           <div class="information">
-            <h4 th:text="'Xin chào, ' + ${#authentication.getPrincipal().getUsername()}">USERNAME</h4>
+            <h4
+              th:text="'Xin chào, ' + ${#authentication.getPrincipal().getUsername()}"
+            >
+              USERNAME
+            </h4>
             <p>Chúc bạn có một ngày vui vẻ và hạnh phúc</p>
           </div>
 
@@ -62,6 +66,26 @@
               </div>
               <div class="user-address">
                 <h6 th:text="'Address : ' + ${user.address}">ADDRESS</h6>
+              </div>
+              <div class="user-address">
+                <h6 th:text="'Role : ' + ${user.roles.get(0).name}">ADDRESS</h6>
+              </div>
+
+              <div class="feature-up-role-user">
+                <button
+                  class="btn btn-success"
+                  th:if="${user.roles.get(0).name} == 'ROLE_USER'"
+                  th:onclick="|setRole('/admin/user/${user.id}/ROLE_ADMIN')|"
+                >
+                  Set role Admin
+                </button>
+                <button
+                  class="btn btn-warning"
+                  th:if="${user.roles.get(0).name} != 'ROLE_USER'"
+                  th:onclick="|setRole('/admin/user/${user.id}/ROLE_USER')|"
+                >
+                  Set role User
+                </button>
               </div>
 
               <div class="recent-question">
@@ -113,6 +137,11 @@
 
       function deleteQuestion(id) {
         formMethod.action = `/admin/question/delete/${id}`;
+        formMethod.submit();
+      }
+
+      function setRole(url) {
+        formMethod.action = url;
         formMethod.submit();
       }
     </script>
