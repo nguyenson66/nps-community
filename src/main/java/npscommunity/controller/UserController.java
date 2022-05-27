@@ -76,11 +76,14 @@ public class UserController {
 		if (principal != null) {
 			AppUser auth_user = userRepo.findByUsername(principal.getName());
 			model.addAttribute("auth_user", auth_user);
+			user.setAvatar(old_user.getAvatar());
 			old_user.setUsername(user.getUsername());
 			old_user.setName(user.getName());
 			old_user.setAddress(user.getAddress());
+			old_user.setBirthday(user.getBirthday());
 			log.info(user.getId() + user.getName() + user.getEmail() + user.getAddress() + user.getBirthday());
 			userRepo.save(old_user);
+			model.addAttribute("user", old_user);
 			if (principal.getName().equals(username)) {
 				log.info("OK, Ban co quyen edit");
 				return "userProfileUpdate";

@@ -129,7 +129,7 @@
 														th:text="${topQues.viewed}">VIEWED</span>
 												</td>
 												<td>
-													<a th:href="${'questions/' + topQues.id}"
+													<a th:href="${'/questions/' + topQues.id}"
 														class="btn btn-outline-dark">View</a>
 												</td>
 											</tr>
@@ -153,7 +153,7 @@
 												<td th:text="${user.name}">USERNAME
 												</td>
 												<td>
-													<a th:href="${'users/' + user.username}"
+													<a th:href="${'/users/' + user.username}"
 														class="btn btn-outline-dark">View</a>
 												</td>
 											</tr>

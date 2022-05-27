@@ -31,7 +31,7 @@
 				<a class="nav-link h1" th:href="${'/users/' + user.username}" th:text="${user.name}">USERNAME</a>
 				<span th:text="${'Email: ' + user.email}">EMAIL</span>
 				<span
-					th:text="${'Birthday' + #dates.format(new java.util.Date(user.birthday), 'dd/MM/YYYY')}">BIRTHDAY</span>
+					th:text="${'Birthday: ' + #dates.format(new java.util.Date(user.birthday), 'dd/MM/YYYY')}">BIRTHDAY</span>
 				<span th:text="${'Address: ' + user.address}">ADDRESS</span>
 				<span th:text="${'Created At: ' + user.createdAt}">CREATED_AT</span>
 

@@ -22,30 +22,30 @@
 				<img th:src="${user.avatar}" alt="avatar" class="user-avatar rounded-circle">
 			</div>
 		</div>
-		<div class="main" th:object="${user}">
+		<div class="main">
 			<div class="user-details">
-				<form th:action="${'/users/' + user.username + '/edit'}" class="w-75" method="post" autocomplete="off">
+				<form th:action="${'/users/' + user.username + '/edit'}" th:object="${user}" class="w-75" method="post"
+					autocomplete="off">
 					<div class="form form-outline mb-4">
 						<label class="form__label" for="fullname">Full Name</label>
-						<input type="text" id="fullname" th:value="${user.name}" class="form__input form-control"
+						<input type="text" id="fullname" th:field="*{name}" class="form__input form-control"
 							placeholder=" " autocomplete="off" />
 					</div>
 					<div class="form form-outline mb-4">
 						<label class="form__label" for="username">Username</label>
-						<input type="text" id="username" th:value="${user.username}" class="form__input form-control"
+						<input type="text" id="username" th:field="*{username}" class="form__input form-control"
 							placeholder=" " autocomplete="off" />
 					</div>
 					<div class="form form-outline mb-4">
 						<label class="form__label" for="address">Address</label>
-						<input type="text" id="address" th:value="${user.address}" class="form__input form-control"
+						<input type="text" id="address" th:field="*{address}" class="form__input form-control"
 							placeholder=" " autocomplete="off" />
 					</div>
-					<!-- <div class="form form-outline mb-4">
+					<div class="form form-outline mb-4">
 						<label class="form__label" for="address">Birthday</label>
-						<input type="text" id="address"
-							th:value="${#dates.format(new java.util.Date(user.birthday), 'dd/MM/YYYY')}"
-							class="form__input form-control" placeholder=" " autocomplete="off" />
-					</div> -->
+						<input type="date" th:field="*{birthday}" class="form__input form-control" placeholder=" "
+							autocomplete="off" />
+					</div>
 					<button class="change-pw-bt btn btn-outline-primary" type="submit">APPLY</button>
 					<a class="btn btn-outline-primary" th:href="${'./changePassword'}">CHANGE PASSWORD</a>
 				</form>

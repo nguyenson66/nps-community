@@ -1,6 +1,7 @@
 package npscommunity.entity;
 
 import java.sql.Timestamp;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -24,6 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import lombok.Data;
 import npscommunity.dto.ManagerUser;
@@ -87,7 +89,8 @@ public class AppUser {
 	private String address;
 
 	@Column
-	private Timestamp birthday;
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
+	private Date birthday;
 
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "users_id"), inverseJoinColumns = @JoinColumn(name = "roles_id"))
