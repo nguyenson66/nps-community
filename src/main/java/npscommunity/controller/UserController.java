@@ -1,8 +1,8 @@
 package npscommunity.controller;
 
 import java.security.Principal;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+// import java.text.SimpleDateFormat;
+// import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -50,9 +50,6 @@ public class UserController {
 		}
 		model.addAttribute("user", user);
 		model.addAttribute("aup", aup);
-		SimpleDateFormat df = new SimpleDateFormat("dd/MM/YYYY");
-		Date user_birthday = new Date(user.getBirthday().getTime());
-		model.addAttribute("user_birthday", df.format(user_birthday));
 		return "userProfile";
 	}
 

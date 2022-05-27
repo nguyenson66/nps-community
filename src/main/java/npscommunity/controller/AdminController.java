@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import lombok.extern.slf4j.Slf4j;
+// import lombok.extern.slf4j.Slf4j;
 import npscommunity.dto.ManagerCategory;
 import npscommunity.dto.ManagerQuestionDto;
 import npscommunity.dto.ManagerUser;
@@ -32,7 +32,7 @@ import npscommunity.repository.QuestionRepository;
 import npscommunity.repository.RoleRepository;
 import npscommunity.repository.UserRepository;
 
-@Slf4j
+// @Slf4j
 @Controller
 @RequestMapping("/admin")
 public class AdminController {
@@ -241,7 +241,7 @@ public class AdminController {
 			List<AppRole> roles = new ArrayList<>();
 			roles.add(roleUser);
 			user.setRoles(roles);
-			
+
 			userRepo.save(user);
 		}
 
