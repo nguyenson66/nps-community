@@ -5,11 +5,9 @@ import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 
-import npscommunity.entity.AppUser;
 import npscommunity.dto.ManagerUser;
+import npscommunity.entity.AppUser;
 
 public interface UserRepository extends JpaRepository<AppUser, Long> {
 	// @Query("select u from user u where u.username = ?1")

@@ -1,6 +1,7 @@
 package npscommunity.controller;
 
 import java.security.Principal;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,20 +62,33 @@ public class QuestionController {
 		List<String> listCategory = categoryRepo.findDistinctCategory();
 		model.addAttribute("titles", listCategory);
 
+		List<Category> hotCate = categoryRepo.findHotCategory();
+		model.addAttribute("hot_cate", hotCate);
+
 		Page<Question> topQues = (Page<Question>) questionRepo
 				.findAll(PageRequest.of(0, 10, Sort.by("viewed").descending()));
 		model.addAttribute("topQues", topQues);
 
+		model.addAttribute("initQuestion", new Question());
+		model.addAttribute("initCategory", new Category());
+
 		return "ask";
 	}
-	
+
 	@PostMapping("/ask")
-	public String addQuestion(Question initQuestion, Errors error, Principal principal) {
-		if (principal == null) {
-			return "login";
+	public String addQuestion(Question initQuestion, Category initCategory, Errors error, Principal principal) {
+		initQuestion.setUser(userRepo.findByUsername(principal.getName()));
+		Category cate = categoryRepo.findByName(initCategory.getName());
+		List<Category> cates = new ArrayList<>();
+		log.info("Creating category" + initCategory.getName());
+		log.info("Creating questions" + initQuestion.getTitle() + initQuestion.getContent());
+		if (cate != null)
+			cates.add(cate);
+		else {
+			cates.add(initCategory);
+			categoryRepo.save(initCategory);
 		}
-		AppUser auth_user = userRepo.findByUsername(principal.getName());
-		initQuestion.setUser(auth_user);
+		initQuestion.setCategories(cates);
 		questionRepo.save(initQuestion);
 		return "redirect:/";
 	}

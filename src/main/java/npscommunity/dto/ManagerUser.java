@@ -22,7 +22,7 @@ public class ManagerUser {
         if (total_vote != null)
             this.total_vote = total_vote;
         else
-            this.total_vote = new Long("0");
+            this.total_vote = (long) 0;
     }
 
     public String toString() {

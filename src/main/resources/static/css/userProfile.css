@@ -56,10 +56,9 @@ footer {
 .user-details{
     display: flex;
     flex-direction: column;
-    flex-grow:1;
+    flex-grow:10;
 	float:left;
 	padding-left: 10px;
-	width: 150px;
 }
 
 .update-bt {

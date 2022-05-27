@@ -41,8 +41,8 @@
 					<button th:each="category : ${categories}" type="button"
 						class="chude btn btn-outline-info rounded-pill" th:text="${category.name}">#CHUDE</button>
 				</div>
-				<h2 class="question-title" th:text="${question.title}">QUESTION_TITLE</h2>
 				<div class="question-content">
+					<h2 class="question-title" th:text="${question.title}">QUESTION_TITLE</h2>
 					<p th:text="${question.content}">QUESTION_CONTENT</p>
 					<!-- <img class="question_image" th:src="@{/images/istockphoto-1305169776-170667a.jpg}" alt="question-images"> -->
 				</div>
@@ -87,6 +87,7 @@
 
 			<!-- ANSWER -->
 			<div class="answers">
+				<h6 th:if="${question.answers.size() == 0}">Hiện chưa có ai trả lời câu hỏi này!</h6>
 				<div class="answer" th:each='answer : ${question.answers}'>
 					<div class="user_bar">
 						<div class="user-info">

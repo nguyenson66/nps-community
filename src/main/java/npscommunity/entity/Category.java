@@ -16,9 +16,9 @@ import javax.persistence.SqlResultSetMapping;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import npscommunity.dto.ManagerCategory;
 
 @Entity
@@ -37,13 +37,14 @@ import npscommunity.dto.ManagerCategory;
 		@ColumnResult(name = "total_view", type = Long.class)
 }))
 
+@NoArgsConstructor(force = true)
 public class Category {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY) // Id auto increment
 	private long id;
 
 	@Column()
-	private String name;
+	private String name = "";
 
 	@ManyToMany(fetch = FetchType.LAZY, mappedBy = "categories")
 	@JsonIgnore

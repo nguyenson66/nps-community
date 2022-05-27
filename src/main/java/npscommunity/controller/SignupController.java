@@ -35,24 +35,25 @@ public class SignupController {
 	public String signupForm(Model model) {
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 		model.addAttribute("user", new AppUser());
-		if(authentication == null || authentication instanceof AnonymousAuthenticationToken) {
+		if (authentication == null || authentication instanceof AnonymousAuthenticationToken) {
 			return "signup";
 		}
-		return "redirect:/question";
+		return "redirect:/";
 	}
 
 	@PostMapping
 	public String processSignup(AppUser user, Errors errors) {
-		if(errors.hasErrors()) {
+		if (errors.hasErrors()) {
 			return "signup";
 		}
 		log.info("User summited:" + user);
 		user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        userRepo.save(user);
-        AppRole default_role = roleRepo.findById((long) 2).get();
-        List<AppRole> u_role = new ArrayList<>();
-        u_role.add(default_role);
-        user.setRoles(u_role);
+		AppRole default_role = roleRepo.findById((long) 2).get();
+		List<AppRole> u_role = new ArrayList<>();
+		u_role.add(default_role);
+		user.setRoles(u_role);
+		user.setName(user.getUsername() + "" + user.getId());
+		userRepo.save(user);
 		return "redirect:/login";
 	}
 }
