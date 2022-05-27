@@ -28,14 +28,6 @@ footer {
     flex-grow: 1;
 }
 
-.tools-bar {
-    display: flex;
-    flex-direction: row;
-    justify-content:space-between;
-    border-radius: 5px;
-    padding: 10px 5px 10px 5px;
-}
-
 .auth-user-avatar {
     width: 40px;
 }
@@ -44,6 +36,7 @@ footer {
 	display:flex;
 	flex-direction:row;
 	flex-grow: 1;
+    flex-wrap: wrap;
 }
 
 .user-avatar {
@@ -53,9 +46,8 @@ footer {
 }
 
 .user-info{
-	width: 250px;
+	width: 20%;
 	height: 60px;
-	margin: 10px;
 }
 
 .user-details{

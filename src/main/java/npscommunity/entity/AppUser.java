@@ -1,7 +1,6 @@
 package npscommunity.entity;
 
 import java.sql.Timestamp;
-
 import java.util.List;
 
 import javax.persistence.Column;
@@ -18,14 +17,13 @@ import javax.persistence.ManyToMany;
 import javax.persistence.NamedNativeQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.SqlResultSetMapping;
-import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotEmpty;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import lombok.Data;
 import npscommunity.dto.ManagerUser;
@@ -68,17 +66,19 @@ public class AppUser {
 	private long id;
 
 	@Column(nullable = false)
+	@NotEmpty(message = "Field can't be empty!")
 	private String username;
 
 	@Column(nullable = false)
+	@NotEmpty(message = "Field can't be empty!")
 	@JsonIgnore
 	private String password;
 
 	@Column
 	private String email;
 
-	@Column(columnDefinition = "varchar(255) default 'https://bit.ly/3McoJN1'")
-	private String avatar;
+	@Column
+	private String avatar = "https://bit.ly/3McoJN1";
 
 	@Column
 	private String name;
@@ -97,8 +97,9 @@ public class AppUser {
 	// @OneToMany(fetch = FetchType.EAGER)
 	// private List<Question> questions;
 
-	// @OneToMany(fetch = FetchType.EAGER)
-	// private List<Answer> answers;
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "user")
+	@JsonIgnore
+	private List<Answer> answers;
 
 	@Column(name = "created_at")
 	@CreationTimestamp

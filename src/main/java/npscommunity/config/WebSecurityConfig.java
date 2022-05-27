@@ -31,10 +31,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
-	
+
 	@Bean
 	public AuthenticationSuccessHandler successHandler() {
-	    return new MyCustomLoginSuccessHandler("/questions");
+		return new MyCustomLoginSuccessHandler("/");
 	}
 
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
@@ -46,31 +46,33 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
 
-		//Các trang không yêu cầu login
+		// Các trang không yêu cầu login
 		http.authorizeRequests().antMatchers("/", "/questions").permitAll();
 
-		//Trang chỉ dành cho ADMIN
-		http.authorizeRequests().antMatchers("/admin", "/admin/*","/admin/*/*").hasRole("ADMIN");
+		// Trang chỉ dành cho ADMIN
+		http.authorizeRequests().antMatchers("/admin", "/admin/*", "/admin/*/*").hasRole("ADMIN");
 
-		//Trang /ask yêu cầu phải login với vai trò ADMIN hoặc USER
-		http.authorizeRequests().antMatchers("/ask").hasAnyRole("ADMIN", "USER");
+		// Trang /ask yêu cầu phải login với vai trò ADMIN hoặc USER
+		http.authorizeRequests().antMatchers("/questions/ask").hasAnyRole("ADMIN", "USER");
 
-		//Khi người dùng đã login với vai trò XX nhưng truy cập vào trang yêu cầu vai trò YY
-		//-> Hiển thị ngoại lệ
+		// Khi người dùng đã login với vai trò XX nhưng truy cập vào trang yêu cầu vai
+		// trò YY
+		// -> Hiển thị ngoại lệ
 		http.authorizeRequests().and().exceptionHandling().accessDeniedPage("/403");
 
-		//Cấu hình cho form login
+		// Cấu hình cho form login
 		http.authorizeRequests().and().formLogin()
-			.loginPage("/login")
-			.successHandler(successHandler())
-			.failureUrl("/login?error=true")
-			.usernameParameter("username")
-			.passwordParameter("password")
-			.and()
-		.logout().logoutUrl("/logout").logoutSuccessUrl("/login");
+				.loginPage("/login")
+				.successHandler(successHandler())
+				.failureUrl("/login?error=true")
+				.usernameParameter("username")
+				.passwordParameter("password")
+				.and()
+				.logout().logoutUrl("/logout").logoutSuccessUrl("/login");
 
-		//Cấu hình Remember Me
-		http.requestMatchers().and().rememberMe().userDetailsService(userDetailsService).tokenRepository(this.persistentTokenRepository()).tokenValiditySeconds(10*60*60);
+		// Cấu hình Remember Me
+		http.requestMatchers().and().rememberMe().userDetailsService(userDetailsService)
+				.tokenRepository(this.persistentTokenRepository()).tokenValiditySeconds(10 * 60 * 60);
 	}
 
 	@Bean

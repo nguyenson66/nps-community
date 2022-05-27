@@ -3,9 +3,10 @@ package npscommunity.repository;
 import java.util.Date;
 import java.util.List;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
 
 import npscommunity.dto.ManagerQuestionDto;
 import npscommunity.entity.Question;
@@ -32,4 +33,8 @@ public interface QuestionRepository extends JpaRepository<Question, Long> {
 
 	@Query("select q from Question q where q.title = ?1")
 	List<Question> findQuestionbyTitle();
+
+	Page<Question> findAll(Pageable pageable);
+
+	Question findByTitle(String title);
 }
