@@ -36,6 +36,12 @@ $(document).ready(function () {
 
 			})
 	});
+	$('#repeatpw').on('keyup', function () {
+		if ($('#password').val() == $('#repeatpw').val()) {
+			$('#message').html('Matching').css('color', 'green');
+		} else
+			$('#message').html('Not Matching').css('color', 'red');
+	});
 });
 
 function quesVoteUp() {
